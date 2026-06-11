@@ -1,0 +1,284 @@
+// ============================================================
+// GLOBAL STYLESHEET (not a module)
+// Holds: design tokens as CSS custom properties, resets, the
+// fixed comic textures, the imperative comic-burst/web-splat
+// overlays (appended to <body> by the Three.js scene), every
+// shared @keyframes, and the reduced-motion fallbacks.
+//
+// All @keyframes live here so their names are NEVER mangled by
+// CSS-modules and can be referenced from any *.module.scss file.
+// ============================================================
+
+:root {
+  --paper: #fbfaf5;
+  --paper-2: #f2efe6;
+  --ink: #15151c;
+  --ink-soft: #4a4a58;
+  --red: #e0202f;
+  --red-deep: #b30e1e;
+  --blue: #2342d6;
+  --blue-deep: #16289b;
+  --yellow: #ffc400;
+  --line: rgba(21, 21, 28, 0.16);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Archivo', sans-serif;
+  line-height: 1.6;
+  cursor: none;
+}
+
+::selection {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  position: relative;
+}
+
+// ---------- layout primitives (shared, element-level — never mangled) ----------
+main {
+  position: relative;
+  z-index: 2;
+}
+
+section {
+  position: relative;
+  padding: clamp(90px, 14vh, 160px) clamp(20px, 6vw, 96px);
+}
+
+.skew-wrap {
+  will-change: transform;
+}
+
+// ---------- animation marker/utility classes (queried by GSAP) ----------
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.flip3d {
+  opacity: 0;
+  transform: rotateX(-85deg) translateY(40px);
+  transform-origin: top center;
+}
+
+// ---------- halftone comic texture ----------
+.halftone {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: radial-gradient(rgba(21, 21, 28, 0.09) 1px, transparent 1.4px);
+  background-size: 14px 14px;
+}
+
+.halftone-red {
+  position: fixed;
+  top: -20vh;
+  right: -15vw;
+  width: 55vw;
+  height: 55vw;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.14;
+  border-radius: 50%;
+  background-image: radial-gradient(var(--red) 1.4px, transparent 2px);
+  background-size: 11px 11px;
+  -webkit-mask-image: radial-gradient(circle, black 0%, transparent 68%);
+  mask-image: radial-gradient(circle, black 0%, transparent 68%);
+  animation: dotDrift 14s ease-in-out infinite alternate;
+}
+
+// ---------- imperative comic overlays (created from the WebGL click handler) ----------
+.burst {
+  position: fixed;
+  z-index: 9500;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  font-family: 'Bangers', cursive;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+  }
+
+  b {
+    position: relative;
+    font-size: 30px;
+    letter-spacing: 0.06em;
+    color: #fff;
+    transform: rotate(-6deg);
+  }
+}
+
+.websplat {
+  position: fixed;
+  z-index: 9400;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+// ============================================================
+// SHARED KEYFRAMES
+// ============================================================
+@keyframes dotDrift {
+  from {
+    transform: translate(0, 0) rotate(0);
+  }
+  to {
+    transform: translate(4vw, -3vh) rotate(8deg);
+  }
+}
+
+@keyframes loaderBounce {
+  0%,
+  100% {
+    transform: rotate(-2deg) scale(1);
+  }
+  50% {
+    transform: rotate(2deg) scale(1.05);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes dropLine {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  56% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqueeRev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes floatGlyph {
+  0%,
+  100% {
+    transform: translateZ(56px) translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateZ(56px) translateY(-12px) rotate(6deg);
+  }
+}
+
+// V2: gentle idle float for project/leadership panels (applied to an inner
+// wrapper so it never fights the card's GSAP tilt transform on the outer node).
+@keyframes floatPanel {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+// V2: slow comic ray spin revealed on project-card hover.
+@keyframes rayspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// V2: pulsing glow ring for timeline nodes / quantum particles.
+@keyframes nodePulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(224, 32, 47, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(224, 32, 47, 0);
+  }
+}
+
+// V2: drifting quantum particles in the research backdrop.
+@keyframes particleDrift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(14px, -22px);
+  }
+}
+
+// ============================================================
+// REDUCED MOTION
+// (Per-element reveal visibility is restored in the GSAP hooks;
+//  here we neutralise looping CSS animations + restore cursor.)
+// ============================================================
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  body {
+    cursor: auto;
+  }
+}
+
+@media (hover: none) {
+  body {
+    cursor: auto;
+  }
+}

@@ -1,0 +1,117 @@
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 130px;
+  perspective: 1100px;
+}
+
+.heroTag {
+  font-family: $font-mono;
+  font-size: clamp(11px, 1.3vw, 14px);
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: $blue;
+  margin-bottom: 26px;
+  opacity: 0;
+  font-weight: 500;
+}
+
+.h13d {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.h1 {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(60px, 12vw, 180px);
+  line-height: 0.92;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  transform-style: preserve-3d;
+}
+
+.row {
+  display: block;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.rowInner {
+  display: inline-block;
+  transform: translateY(120%) rotateX(-80deg);
+  transform-style: preserve-3d;
+}
+
+.t3dRed {
+  color: $red;
+  text-shadow: 1px 1px 0 $red-deep, 2px 2px 0 $red-deep, 3px 3px 0 $red-deep, 4px 4px 0 $red-deep,
+    5px 5px 0 $red-deep, 6px 6px 0 $ink, 9px 9px 0 rgba(21, 21, 28, 0.18);
+}
+
+.t3dBlue {
+  color: $blue;
+  text-shadow: 1px 1px 0 $blue-deep, 2px 2px 0 $blue-deep, 3px 3px 0 $blue-deep, 4px 4px 0 $blue-deep,
+    5px 5px 0 $blue-deep, 6px 6px 0 $ink, 9px 9px 0 rgba(21, 21, 28, 0.18);
+}
+
+.t3dInk {
+  color: $paper;
+  -webkit-text-stroke: 3px $ink;
+  text-shadow: 5px 5px 0 $yellow, 8px 8px 0 $ink;
+}
+
+.heroSub {
+  margin-top: 36px;
+  max-width: 560px;
+  font-size: clamp(16px, 1.7vw, 20px);
+  color: $ink-soft;
+  opacity: 0;
+  font-weight: 500;
+
+  b {
+    color: $ink;
+    font-weight: 700;
+  }
+}
+
+.heroActions {
+  display: flex;
+  gap: 18px;
+  margin-top: 44px;
+  flex-wrap: wrap;
+  opacity: 0;
+}
+
+.heroMeta {
+  position: absolute;
+  bottom: 36px;
+  left: clamp(20px, 6vw, 96px);
+  right: clamp(20px, 6vw, 96px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  opacity: 0;
+  font-weight: 500;
+}
+
+.scrollHint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.wheel {
+  width: 3px;
+  height: 46px;
+  background: linear-gradient(180deg, $red, transparent);
+  animation: dropLine 1.8s ease-in-out infinite;
+}

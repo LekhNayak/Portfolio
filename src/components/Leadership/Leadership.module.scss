@@ -1,0 +1,107 @@
+  .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 56px;
+
+  @include mq($bp-900) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  border: 3px solid $ink;
+  border-radius: 20px;
+  padding: 34px 30px;
+  background: $paper;
+  box-shadow: 7px 7px 0 $ink;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+
+  &:nth-child(odd) {
+    transform: rotate(-0.6deg);
+  }
+  &:nth-child(even) {
+    transform: rotate(0.6deg);
+  }
+  &:hover {
+    transform: translate(-3px, -3px) rotate(0);
+    box-shadow: 12px 12px 0 $ink;
+    background: #fff;
+  }
+}
+
+// faint animated network backdrop
+.net {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  stroke: rgba(35, 66, 214, 0.16);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.8;
+
+  circle {
+    fill: rgba(224, 32, 47, 0.25);
+    animation: nodePulse 3s ease-in-out infinite;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.role {
+  font-family: $font-display;
+  font-size: clamp(24px, 2.4vw, 32px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.org {
+  font-family: $font-mono;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $blue;
+  margin: 6px 0 14px;
+  font-weight: 500;
+}
+
+.blurb {
+  color: $ink-soft;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.stats {
+  display: flex;
+  gap: 26px;
+  margin-top: 22px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+
+  b {
+    font-family: $font-display;
+    font-size: clamp(28px, 3vw, 40px);
+    color: $red;
+    text-shadow: 2px 2px 0 $ink;
+  }
+
+  span {
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $ink-soft;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+}

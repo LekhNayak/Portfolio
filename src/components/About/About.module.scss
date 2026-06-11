@@ -1,0 +1,85 @@
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(40px, 6vw, 90px);
+  margin-top: 60px;
+  align-items: start;
+
+  @include mq($bp-900) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.aboutText {
+  p {
+    font-size: clamp(16px, 1.7vw, 20px);
+    color: $ink-soft;
+    margin-bottom: 24px;
+    font-weight: 500;
+
+    b {
+      color: $ink;
+      font-weight: 700;
+    }
+  }
+
+  // nested for specificity so the rotate beats the global `.reveal` transform
+  .quote {
+    font-family: $font-display;
+    font-size: clamp(22px, 2.4vw, 30px);
+    color: $ink;
+    border: 3px solid $ink;
+    border-radius: 18px;
+    padding: 22px 26px;
+    background: $yellow;
+    box-shadow: 6px 6px 0 $ink;
+    transform: rotate(-1deg);
+    letter-spacing: 0.04em;
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.stat {
+  position: relative;
+  background: $paper;
+  border: 3px solid $ink;
+  border-radius: 16px;
+  padding: 26px 24px;
+  box-shadow: 5px 5px 0 $ink;
+  transition: 0.25s;
+  overflow: hidden;
+
+  &:nth-child(odd) {
+    transform: rotate(-1deg);
+  }
+  &:nth-child(even) {
+    transform: rotate(1deg);
+  }
+  &:hover {
+    transform: translate(-3px, -3px) rotate(0);
+    box-shadow: 9px 9px 0 $ink;
+    background: #fff;
+  }
+}
+
+.num {
+  font-family: $font-display;
+  font-size: clamp(34px, 3.8vw, 52px);
+  color: $red;
+  text-shadow: 2px 2px 0 $ink;
+}
+
+.lbl {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  margin-top: 6px;
+  font-weight: 500;
+}

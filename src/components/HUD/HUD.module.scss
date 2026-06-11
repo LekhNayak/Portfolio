@@ -1,0 +1,52 @@
+.hud {
+  position: fixed;
+  z-index: 7000;
+  pointer-events: none;
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: $ink-soft;
+  text-transform: uppercase;
+
+  b {
+    color: $red;
+    font-weight: 500;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 2px solid $ink;
+  }
+
+  @include mq($bp-860) {
+    display: none;
+  }
+}
+
+.tl {
+  top: 84px;
+  left: 22px;
+
+  &::before {
+    top: -12px;
+    left: -8px;
+    border-right: none;
+    border-bottom: none;
+  }
+}
+
+.br {
+  bottom: 18px;
+  right: 22px;
+  text-align: right;
+
+  &::before {
+    bottom: -6px;
+    right: -8px;
+    border-left: none;
+    border-top: none;
+  }
+}

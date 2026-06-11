@@ -1,0 +1,16 @@
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  z-index: 8000;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(90deg, $red 0 30px, $blue 30px 60px);
+  border-bottom: 2px solid $ink;
+}

@@ -1,0 +1,55 @@
+.steps {
+  margin-top: 70px;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 110px 1fr 1.2fr;
+  gap: 30px;
+  align-items: center;
+  padding: 34px 26px;
+  border: 3px solid $ink;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  background: $paper;
+  box-shadow: 5px 5px 0 $ink;
+  transition: 0.3s;
+
+  &:nth-child(odd) {
+    transform: rotate(-0.5deg);
+  }
+  &:nth-child(even) {
+    transform: rotate(0.5deg);
+  }
+  &:hover {
+    transform: translate(-4px, -4px) rotate(0);
+    box-shadow: 10px 10px 0 $ink;
+    background: #fff;
+  }
+
+  @include mq($bp-760) {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  h4 {
+    font-family: $font-display;
+    font-size: clamp(22px, 2.2vw, 28px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  p {
+    color: $ink-soft;
+    font-size: 15px;
+    font-weight: 500;
+  }
+}
+
+.no {
+  font-family: $font-display;
+  font-size: 44px;
+  color: $paper;
+  -webkit-text-stroke: 2px $ink;
+  text-shadow: 4px 4px 0 $red;
+}

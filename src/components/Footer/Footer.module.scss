@@ -1,0 +1,17 @@
+.footer {
+  position: relative;
+  z-index: 2;
+  border-top: 3px solid $ink;
+  padding: 30px clamp(20px, 6vw, 96px);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  background: $paper-2;
+  font-weight: 500;
+}

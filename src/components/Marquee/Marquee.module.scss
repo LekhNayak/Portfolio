@@ -1,0 +1,43 @@
+.marquee {
+  position: relative;
+  z-index: 2;
+  border-top: 3px solid $ink;
+  border-bottom: 3px solid $ink;
+  overflow: hidden;
+  padding: 16px 0;
+  background: $ink;
+  transform: rotate(-1.2deg) scale(1.02);
+  margin: 10px 0;
+}
+
+.m2 {
+  background: $red;
+  transform: rotate(1deg) scale(1.02);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  font-family: $font-display;
+  font-size: clamp(20px, 2.6vw, 30px);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: $paper;
+
+  span {
+    padding: 0 30px;
+    white-space: nowrap;
+  }
+}
+
+.hl {
+  color: $yellow;
+}
+
+.mFwd .track {
+  animation: marquee 22s linear infinite;
+}
+
+.mRev .track {
+  animation: marqueeRev 26s linear infinite;
+}

@@ -1,0 +1,81 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 56px;
+
+  @include mq($bp-980) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include mq($bp-760) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  border: 3px solid $ink;
+  border-radius: 18px;
+  padding: 26px 24px;
+  background: $paper;
+  box-shadow: 6px 6px 0 $ink;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+
+  &:nth-child(3n + 1) {
+    transform: rotate(-1deg);
+  }
+  &:nth-child(3n + 2) {
+    transform: rotate(0.6deg);
+  }
+  &:nth-child(3n) {
+    transform: rotate(1.2deg);
+  }
+  &:hover {
+    transform: translate(-3px, -4px) rotate(0);
+    box-shadow: 11px 12px 0 $ink;
+    background: #fff;
+  }
+}
+
+.rank {
+  font-family: $font-display;
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  color: $paper;
+  background: $red;
+  border: 3px solid $ink;
+  border-radius: 10px;
+  padding: 2px 12px;
+  text-shadow: 2px 2px 0 $ink;
+}
+
+.glyph {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 34px;
+  filter: drop-shadow(2px 2px 0 rgba(21, 21, 28, 0.3));
+}
+
+.title {
+  font-family: $font-display;
+  font-size: clamp(20px, 2vw, 26px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-top: 12px;
+  line-height: 1.05;
+}
+
+.detail {
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  font-weight: 500;
+}

@@ -1,0 +1,62 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  background: $paper;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  transition: opacity 0.9s, visibility 0.9s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(224, 32, 47, 0.12) 1.6px, transparent 2px);
+    background-size: 16px 16px;
+    animation: dotDrift 6s linear infinite alternate;
+  }
+}
+
+.done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.logo {
+  font-family: $font-display;
+  font-size: clamp(44px, 8vw, 90px);
+  letter-spacing: 0.06em;
+  color: $red;
+  text-shadow: 2px 2px 0 $paper, 4px 4px 0 $ink, 7px 7px 0 rgba(35, 66, 214, 0.5);
+  animation: loaderBounce 1s ease-in-out infinite;
+}
+
+.bar {
+  width: min(340px, 70vw);
+  height: 14px;
+  background: $paper;
+  border: 3px solid $ink;
+  border-radius: 99px;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 $ink;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(45deg, $red 0 12px, $blue 12px 24px);
+  transition: width 0.2s;
+}
+
+.status {
+  font-family: $font-display;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  color: $blue;
+  min-height: 24px;
+  transform: rotate(-2deg);
+}

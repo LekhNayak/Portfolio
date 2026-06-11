@@ -1,0 +1,38 @@
+// ============================================================
+// Design tokens + mixins — auto-injected into every SCSS module
+// (see vite.config.ts -> css.preprocessorOptions.scss.additionalData)
+// ============================================================
+
+// ---- Colors (mirror of the :root custom properties) ----
+$paper: #fbfaf5;
+$paper-2: #f2efe6;
+$ink: #15151c;
+$ink-soft: #4a4a58;
+$red: #e0202f;
+$red-deep: #b30e1e;
+$blue: #2342d6;
+$blue-deep: #16289b;
+$yellow: #ffc400;
+$line: rgba(21, 21, 28, 0.16);
+
+// ---- Fonts ----
+$font-display: 'Bangers', cursive;
+$font-body: 'Archivo', sans-serif;
+$font-mono: 'JetBrains Mono', monospace;
+
+// ---- Breakpoints (exact values from the original media queries) ----
+$bp-980: 980px;
+$bp-900: 900px;
+$bp-860: 860px;
+$bp-760: 760px;
+
+@mixin mq($max) {
+  @media (max-width: $max) {
+    @content;
+  }
+}
+
+// Comic-book hard offset shadow helper
+@mixin hard-shadow($x, $y, $color: $ink) {
+  box-shadow: #{$x} #{$y} 0 $color;
+}

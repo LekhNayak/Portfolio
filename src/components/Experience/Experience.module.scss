@@ -1,0 +1,114 @@
+.timeline {
+  position: relative;
+  margin-top: 60px;
+  padding-left: 54px;
+
+  @include mq($bp-760) {
+    padding-left: 42px;
+  }
+}
+
+// the draw-on-scroll spine (scaleY animated by createTimelineDraw)
+.line {
+  position: absolute;
+  left: 18px;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: repeating-linear-gradient($ink 0 10px, transparent 10px 16px);
+  transform-origin: top center;
+  border-radius: 4px;
+}
+
+.item {
+  position: relative;
+  margin-bottom: 26px;
+}
+
+.node {
+  position: absolute;
+  left: -45px;
+  top: 30px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: $red;
+  border: 3px solid $ink;
+  box-shadow: 0 0 0 4px $paper;
+  animation: nodePulse 2.4s ease-in-out infinite;
+
+  @include mq($bp-760) {
+    left: -33px;
+  }
+}
+
+.card {
+  position: relative;
+  border: 3px solid $ink;
+  border-radius: 18px;
+  padding: 28px 28px;
+  background: $paper;
+  box-shadow: 6px 6px 0 $ink;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+
+  &:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0 $ink;
+    background: #fff;
+  }
+}
+
+.no {
+  position: absolute;
+  top: -14px;
+  right: 20px;
+  font-family: $font-display;
+  font-size: 40px;
+  color: $paper;
+  -webkit-text-stroke: 2px $ink;
+  text-shadow: 4px 4px 0 $blue;
+}
+
+.role {
+  font-family: $font-display;
+  font-size: clamp(22px, 2.3vw, 30px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.org {
+  font-family: $font-mono;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $blue;
+  margin: 6px 0 14px;
+  font-weight: 500;
+}
+
+.blurb {
+  color: $ink-soft;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.chip {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 2px solid $ink;
+  border-radius: 99px;
+  padding: 6px 12px;
+  color: $ink;
+  background: $paper-2;
+  font-weight: 500;
+}

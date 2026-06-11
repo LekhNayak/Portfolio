@@ -1,0 +1,97 @@
+// Shared section primitives (eyebrow label + big comic heading). Imported by
+// About / Services / Process / Contact — the hashed class names are stable
+// across imports so styling stays DRY.
+
+.eyebrow {
+  font-family: $font-mono;
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: $blue;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  font-weight: 500;
+
+  &::before {
+    content: '';
+    width: 36px;
+    height: 3px;
+    background: $red;
+  }
+}
+
+.h2 {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(40px, 6.5vw, 86px);
+  line-height: 1;
+  text-transform: uppercase;
+  max-width: 960px;
+  letter-spacing: 0.02em;
+  transform-style: preserve-3d;
+}
+
+.accent {
+  color: $red;
+  text-shadow: 3px 3px 0 $ink;
+}
+
+.accentB {
+  color: $blue;
+  text-shadow: 3px 3px 0 $ink;
+}
+
+// ---- shared comic buttons (hero CTAs + contact mega-CTA) ----
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: $font-display;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  padding: 14px 32px;
+  border-radius: 14px;
+  border: 3px solid $ink;
+  transition: 0.25s;
+  will-change: transform;
+  overflow: hidden;
+}
+
+.btnPrimary {
+  background: $red;
+  color: #fff;
+  box-shadow: 5px 5px 0 $ink;
+
+  &:hover {
+    transform: translate(-3px, -3px) rotate(-1deg);
+    box-shadow: 9px 9px 0 $ink;
+  }
+}
+
+.btnGhost {
+  background: $paper;
+  color: $ink;
+  box-shadow: 5px 5px 0 $ink;
+
+  &:hover {
+    transform: translate(-3px, -3px) rotate(1deg);
+    box-shadow: 9px 9px 0 $ink;
+    background: $yellow;
+  }
+
+  .dot {
+    background: $red;
+  }
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid $ink;
+  animation: blink 1.2s infinite;
+}

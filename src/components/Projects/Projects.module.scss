@@ -1,0 +1,209 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 64px;
+  perspective: 1400px;
+
+  @include mq($bp-980) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  border: 3px solid $ink;
+  border-radius: 20px;
+  padding: 36px 30px;
+  background: $paper;
+  box-shadow: 8px 8px 0 $ink;
+  transform-style: preserve-3d;
+  will-change: transform;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+
+  // radial cursor glow (driven by --mx/--my from useCardTilt)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 196, 0, 0.35), transparent 45%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: 0;
+  }
+  // comic rays revealed on hover
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    background: repeating-conic-gradient(from 0deg, rgba(35, 66, 214, 0.08) 0deg 7deg, transparent 7deg 16deg);
+    opacity: 0;
+    transition: opacity 0.45s;
+    pointer-events: none;
+    z-index: 0;
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+  &:hover::after {
+    opacity: 1;
+    animation: rayspin 14s linear infinite;
+  }
+  &:hover {
+    box-shadow: 14px 14px 0 $ink;
+  }
+
+  &:nth-child(2) .badge,
+  &:nth-child(5) .badge {
+    background: $red;
+  }
+  &:nth-child(3) .badge,
+  &:nth-child(6) .badge {
+    background: $yellow;
+    color: $ink;
+  }
+  &:nth-child(2) .glyph {
+    animation-delay: -1.3s;
+  }
+  &:nth-child(3) .glyph {
+    animation-delay: -2.6s;
+  }
+  &:nth-child(4) .glyph {
+    animation-delay: -0.8s;
+  }
+  &:nth-child(5) .glyph {
+    animation-delay: -2s;
+  }
+  &:nth-child(6) .glyph {
+    animation-delay: -3.1s;
+  }
+  &:nth-child(even) .inner {
+    animation-delay: -3s;
+  }
+}
+
+// idle float lives on an inner wrapper so it never fights the outer tilt
+.inner {
+  position: relative;
+  z-index: 1;
+  transform-style: preserve-3d;
+  animation: floatPanel 6s ease-in-out infinite;
+}
+
+.badge {
+  position: absolute;
+  top: -3px;
+  right: 24px;
+  font-family: $font-display;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  background: $blue;
+  color: #fff;
+  border: 3px solid $ink;
+  border-top: none;
+  padding: 8px 14px;
+  border-radius: 0 0 12px 12px;
+  transform: translateZ(40px);
+}
+
+.glyph {
+  font-size: 38px;
+  display: inline-block;
+  animation: floatGlyph 4s ease-in-out infinite;
+  transform: translateZ(56px);
+  filter: drop-shadow(3px 3px 0 rgba(21, 21, 28, 0.35));
+}
+
+.title {
+  font-family: $font-display;
+  font-size: clamp(24px, 2.2vw, 32px);
+  margin: 16px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transform: translateZ(46px);
+}
+
+.blurb {
+  color: $ink-soft;
+  font-size: 14.5px;
+  line-height: 1.55;
+  transform: translateZ(28px);
+  font-weight: 500;
+}
+
+.impact {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: $ink;
+  transform: translateZ(34px);
+
+  span {
+    color: $red;
+    flex-shrink: 0;
+  }
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+  transform: translateZ(20px);
+}
+
+.chip {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 2px solid $ink;
+  border-radius: 99px;
+  padding: 6px 12px;
+  color: $ink;
+  background: $paper-2;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  transform: translateZ(30px);
+}
+
+.projBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: $font-display;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 2px solid $ink;
+  background: $paper-2;
+  color: $ink;
+  box-shadow: 3px 3px 0 $ink;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 $ink;
+  }
+}
+
+.projBtnPrimary {
+  background: $blue;
+  color: #fff;
+
+  &:hover {
+    background: $blue-deep;
+  }
+}
