@@ -1,6 +1,9 @@
 import { ACHIEVEMENTS } from '@/data/achievements';
+import { AchievementIcon } from './AchievementIcon';
 import shared from '@/styles/shared.module.scss';
 import styles from './Achievements.module.scss';
+
+const RANK_CLASS = { win: '', second: 'rankBlue', finalist: 'rankYellow' } as const;
 
 /**
  * Achievement badges that burst into view (`badge-pop`, handled by
@@ -18,9 +21,9 @@ export function Achievements() {
         {ACHIEVEMENTS.map((a) => (
           <div className={`${styles.badge} badge-pop hoverable`} key={a.title}>
             <span className={styles.glyph} aria-hidden="true">
-              {a.glyph}
+              <AchievementIcon name={a.icon} />
             </span>
-            <div className={styles.rank}>{a.rank}</div>
+            <div className={`${styles.rank} ${styles[RANK_CLASS[a.rankType]] ?? ''}`}>{a.rank}</div>
             <div className={styles.title}>{a.title}</div>
             <div className={styles.detail}>{a.detail}</div>
           </div>

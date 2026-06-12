@@ -44,7 +44,7 @@
 
 .rank {
   font-family: $font-display;
-  font-size: 26px;
+  font-size: 24px;
   letter-spacing: 0.04em;
   color: $paper;
   background: $red;
@@ -52,14 +52,35 @@
   border-radius: 10px;
   padding: 2px 12px;
   text-shadow: 2px 2px 0 $ink;
+  white-space: nowrap;
+}
+
+// runner-up
+.rankBlue {
+  background: $blue;
+}
+
+// finalist
+.rankYellow {
+  background: $yellow;
+  color: $ink;
+  text-shadow: none;
 }
 
 .glyph {
   position: absolute;
-  top: 18px;
-  right: 18px;
-  font-size: 34px;
+  top: 16px;
+  right: 16px;
   filter: drop-shadow(2px 2px 0 rgba(21, 21, 28, 0.3));
+
+  svg {
+    display: block;
+  }
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
 }
 
 .title {

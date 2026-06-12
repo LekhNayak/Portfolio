@@ -1,20 +1,31 @@
 import type { MarqueeItem } from '@/components/Marquee/Marquee';
 
-// Forward strip — the engineering stack.
-export const MARQUEE_FWD: MarqueeItem[] = [
-  { text: 'React' },
-  { text: '★', highlight: true },
-  { text: 'TypeScript' },
-  { text: '★', highlight: true },
-  { text: 'Node.js' },
-  { text: '★', highlight: true },
-  { text: 'Python' },
-  { text: '★', highlight: true },
-  { text: 'Distributed Systems' },
-  { text: '★', highlight: true },
-  { text: 'AI / ML' },
-  { text: '★', highlight: true },
+// Forward strip — the engineering stack (★ separators added automatically).
+const FWD_TAGS = [
+  'React',
+  'TypeScript',
+  'Node.js',
+  'Python',
+  'Java',
+  'Next.js',
+  'Express',
+  'Docker',
+  'Kafka',
+  'Redis',
+  'PostgreSQL',
+  'MongoDB',
+  'WebSockets',
+  'LangChain',
+  'PyTorch',
+  'AI / ML',
+  'HPC',
+  'Distributed Systems',
 ];
+
+export const MARQUEE_FWD: MarqueeItem[] = FWD_TAGS.flatMap((text) => [
+  { text },
+  { text: '★', highlight: true },
+]);
 
 // Reverse strip — the build mantra (authored twice = one seamless half).
 export const MARQUEE_REV: MarqueeItem[] = [

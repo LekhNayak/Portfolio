@@ -28,6 +28,7 @@ import { useMagnetic } from '@/hooks/useMagnetic';
 import { useCardTilt } from '@/hooks/useCardTilt';
 import { useShowcaseAnimations } from '@/hooks/useShowcaseAnimations';
 import { useClickFx } from '@/hooks/useClickFx';
+import { useScrollRefresh } from '@/hooks/useScrollRefresh';
 import { useSceneBindings } from '@/context/SceneBindingsContext';
 
 /**
@@ -56,6 +57,7 @@ export function Home() {
   useCardTilt(skewWrapRef);
   useShowcaseAnimations(skewWrapRef, reduceMotion);
   useClickFx(!reduceMotion);
+  useScrollRefresh(loaded);
 
   return (
     <>

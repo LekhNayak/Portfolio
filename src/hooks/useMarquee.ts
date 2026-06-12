@@ -10,14 +10,15 @@ import gsap from 'gsap';
 export function useMarquee(
   trackRef: RefObject<HTMLElement | null>,
   reverse = false,
-  speed = 70, // pixels per second
+  speed = 44, // pixels per second (calm, matches the original cadence)
 ): void {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
     const oneSet = track.offsetWidth / 2; // content is duplicated
-    const duration = oneSet > 0 ? oneSet / speed : 18;
+    const effSpeed = reverse ? speed * 0.85 : speed; // reverse a touch slower, like the old 22s/26s
+    const duration = oneSet > 0 ? oneSet / effSpeed : 24;
 
     gsap.set(track, { xPercent: reverse ? -50 : 0 });
     const tween = gsap.to(track, {

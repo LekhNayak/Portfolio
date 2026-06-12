@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 
-const WORDS = ['THWACK!', 'BAM!', 'ZAP!', 'GOTCHA!', 'SNAP!'] as const;
+const WORDS = ['THWACK!', 'BAM!', 'ZAP!', 'GOTCHA!', 'SNAP!', 'FAAAH!'] as const;
 
 /**
  * Pops a comic word-burst (spiky star + onomatopoeia) at a screen position.
