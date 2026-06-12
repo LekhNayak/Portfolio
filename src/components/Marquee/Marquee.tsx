@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { useMarquee } from '@/hooks/useMarquee';
 import styles from './Marquee.module.scss';
 
 export interface MarqueeItem {
@@ -20,13 +22,13 @@ interface MarqueeProps {
  * a visible seam. Timing/direction match the original (22s fwd / 26s rev).
  */
 export function Marquee({ items, reverse = false, variant2 = false }: MarqueeProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  useMarquee(trackRef, reverse);
+
   const content = [...items, ...items];
   return (
-    <div
-      className={`${styles.marquee} ${variant2 ? styles.m2 : ''} ${reverse ? styles.mRev : styles.mFwd}`}
-      aria-hidden="true"
-    >
-      <div className={styles.track}>
+    <div className={`${styles.marquee} ${variant2 ? styles.m2 : ''}`} aria-hidden="true">
+      <div className={styles.track} ref={trackRef}>
         {content.map((it, i) => (
           <span key={i} className={it.highlight ? styles.hl : undefined}>
             {it.text}

@@ -33,11 +33,3 @@
 .hl {
   color: $yellow;
 }
-
-.mFwd .track {
-  animation: marquee 22s linear infinite;
-}
-
-.mRev .track {
-  animation: marqueeRev 26s linear infinite;
-}
