@@ -1,4 +1,4 @@
-  .grid {
+.grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
@@ -9,48 +9,88 @@
   }
 }
 
+// outer = button reset + perspective for the flip (the panel lives on the faces)
 .card {
   position: relative;
-  border: 3px solid $ink;
-  border-radius: 20px;
-  padding: 34px 30px;
-  background: $paper;
-  box-shadow: 7px 7px 0 $ink;
-  overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-
-  &:nth-child(odd) {
-    transform: rotate(-0.6deg);
-  }
-  &:nth-child(even) {
-    transform: rotate(0.6deg);
-  }
-  &:hover {
-    transform: translate(-3px, -3px) rotate(0);
-    box-shadow: 12px 12px 0 $ink;
-    background: #fff;
-  }
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1600px;
 }
 
-// faint animated network backdrop
-.net {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  stroke: rgba(35, 66, 214, 0.16);
-  stroke-width: 1;
-  fill: none;
-  opacity: 0.8;
+.flipInner {
+  position: relative;
+  display: grid; // stack faces in one cell → height = taller face, no reflow
+  grid-template-rows: 1fr; // the single (stacked) row fills the card height
+  height: 100%; // fill the grid-stretched card so both cards match
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.6, 0.02, 0.2, 1);
+  will-change: transform;
+}
 
-  circle {
-    fill: rgba(224, 32, 47, 0.25);
-    animation: nodePulse 3s ease-in-out infinite;
-  }
+// vertical flip
+.card.flipped .flipInner {
+  transform: rotateX(180deg);
+}
+
+.face {
+  grid-area: 1 / 1;
+  position: relative;
+  min-height: 232px;
+  border: 3px solid $ink;
+  border-radius: 20px;
+  padding: 32px 30px;
+  box-shadow: 7px 7px 0 $ink;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: box-shadow 0.25s;
+}
+
+.card:hover .face {
+  box-shadow: 12px 12px 0 $ink;
+}
+
+.front {
+  background: $paper;
+}
+
+.back {
+  background: $yellow;
+  transform: rotateX(180deg);
 }
 
 .content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// org emblem filling the empty right side of the front face (placeholder)
+.logo {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  width: 32%;
+  max-width: 132px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.95;
+  z-index: 1;
+  pointer-events: none;
+}
+
+// keep the front copy clear of the emblem
+.front .content {
+  padding-right: 34%;
 }
 
 .role {
@@ -58,6 +98,7 @@
   font-size: clamp(24px, 2.4vw, 32px);
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  line-height: 1;
 }
 
 .org {
@@ -66,42 +107,97 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: $blue;
-  margin: 6px 0 14px;
+  margin: 8px 0 4px;
   font-weight: 500;
 }
 
-.blurb {
+.period {
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.1em;
   color: $ink-soft;
-  font-size: 14.5px;
-  font-weight: 500;
-  line-height: 1.55;
+  font-weight: 600;
 }
 
-.stats {
-  display: flex;
-  gap: 26px;
-  margin-top: 22px;
-}
-
-.stat {
+.committee {
   display: flex;
   flex-direction: column;
   line-height: 1;
+  margin-top: 18px;
 
   b {
     font-family: $font-display;
-    font-size: clamp(28px, 3vw, 40px);
+    font-size: clamp(30px, 3.2vw, 42px);
     color: $red;
     text-shadow: 2px 2px 0 $ink;
   }
 
-  span {
+  em {
+    font-style: normal;
     font-family: $font-mono;
     font-size: 10px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: $ink-soft;
-    margin-top: 6px;
+    margin-top: 8px;
     font-weight: 500;
   }
+}
+
+// back face copy
+.backLabel {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $red;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.backTitle {
+  font-family: $font-display;
+  font-size: clamp(22px, 2.2vw, 28px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: $ink;
+  line-height: 1;
+}
+
+.backLead {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(21, 21, 28, 0.82);
+  font-weight: 500;
+}
+
+.backChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.backChip {
+  font-family: $font-mono;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid $ink;
+  border-radius: 99px;
+  padding: 5px 11px;
+  color: $ink;
+  background: $paper;
+  font-weight: 600;
+}
+
+.flipHint {
+  margin-top: auto;
+  padding-top: 16px;
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $ink-soft;
 }

@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import { LEADERSHIP } from '@/data/leadership';
 import shared from '@/styles/shared.module.scss';
 import styles from './Leadership.module.scss';
 
-/** Leadership roles with a faint animated network backdrop + stat highlights. */
+/**
+ * Positions of responsibility. Each card flips vertically on click to reveal
+ * the detail. Front: role / org / committee size. Back: what I actually did.
+ */
 export function Leadership() {
+  const [flipped, setFlipped] = useState<boolean[]>(() => LEADERSHIP.map(() => false));
+  const toggle = (i: number) => setFlipped((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+
   return (
     <section id="leadership">
       <div className={`${shared.eyebrow} reveal`}>05 — Leadership</div>
@@ -12,29 +19,50 @@ export function Leadership() {
       </h2>
 
       <div className={styles.grid}>
-        {LEADERSHIP.map((l) => (
-          <div className={`${styles.card} reveal hoverable`} key={l.role}>
-            <svg className={styles.net} preserveAspectRatio="none" viewBox="0 0 100 100" aria-hidden="true">
-              <polyline points="8,80 30,50 55,66 78,30 94,48" />
-              <polyline points="12,24 38,58 60,34 86,62" />
-              <circle cx="30" cy="50" r="2.2" />
-              <circle cx="55" cy="66" r="2.2" />
-              <circle cx="78" cy="30" r="2.2" />
-            </svg>
-            <div className={styles.content}>
-              <h4 className={styles.role}>{l.role}</h4>
-              <div className={styles.org}>{l.org}</div>
-              <p className={styles.blurb}>{l.blurb}</p>
-              <div className={styles.stats}>
-                {l.stats.map((s) => (
-                  <div className={styles.stat} key={s.label}>
-                    <b>{s.num}</b>
-                    <span>{s.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        {LEADERSHIP.map((l, i) => (
+          <button
+            type="button"
+            className={`${styles.card} reveal hoverable ${flipped[i] ? styles.flipped : ''}`}
+            key={l.role}
+            onClick={() => toggle(i)}
+            aria-pressed={flipped[i]}
+            aria-label={`${l.role}, ${l.org} — tap to flip`}
+            data-no-clickfx
+          >
+            <span className={styles.flipInner}>
+              {/* ---------- FRONT ---------- */}
+              <span className={`${styles.face} ${styles.front}`}>
+                <img className={styles.logo} src={l.logo} alt="" aria-hidden="true" />
+                <span className={styles.content}>
+                  <span className={styles.role}>{l.role}</span>
+                  <span className={styles.org}>{l.org}</span>
+                  <span className={styles.period}>{l.period}</span>
+                  <span className={styles.committee}>
+                    <b>{l.committee}</b>
+                    <em>people committee</em>
+                  </span>
+                  <span className={styles.flipHint}>tap for details ↻</span>
+                </span>
+              </span>
+
+              {/* ---------- BACK ---------- */}
+              <span className={`${styles.face} ${styles.back}`}>
+                <span className={styles.content}>
+                  <span className={styles.backLabel}>// what i actually did</span>
+                  <span className={styles.backTitle}>{l.role}</span>
+                  <span className={styles.backLead}>{l.back.lead}</span>
+                  <span className={styles.backChips}>
+                    {l.back.highlights.map((h) => (
+                      <span className={styles.backChip} key={h}>
+                        {h}
+                      </span>
+                    ))}
+                  </span>
+                  <span className={styles.flipHint}>↩ back</span>
+                </span>
+              </span>
+            </span>
+          </button>
         ))}
       </div>
     </section>

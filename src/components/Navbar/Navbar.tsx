@@ -7,6 +7,8 @@ const LINKS = [
   { href: '#projects', label: 'Projects' },
   // { href: '#research', label: 'Research' }, // hidden for now — kept in code
   { href: '#experience', label: 'Experience' },
+  { href: '#achievements', label: 'Achievements' },
+  { href: '#leadership', label: 'Leadership' },
   { href: '#contact', label: 'Contact' },
 ] as const;
 
