@@ -6,10 +6,9 @@ import styles from './Leadership.module.scss';
 export function Leadership() {
   return (
     <section id="leadership">
-      <div className={`${shared.eyebrow} reveal`}>06 — Leadership</div>
+      <div className={`${shared.eyebrow} reveal`}>05 — Leadership</div>
       <h2 className={`${shared.h2} flip3d`}>
-        BUILDING <span className={shared.accent}>TEAMS</span> &amp;{' '}
-        <span className={shared.accentB}>COMMUNITIES</span>
+        POSITIONS OF <span className={shared.accent}>RESPONSIBILITY</span>
       </h2>
 
       <div className={styles.grid}>

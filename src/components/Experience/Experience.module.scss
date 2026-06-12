@@ -69,21 +69,61 @@
   text-shadow: 4px 4px 0 $blue;
 }
 
-.role {
+// company name — the primary heading
+.company {
   font-family: $font-display;
   font-size: clamp(22px, 2.3vw, 30px);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
-.org {
+.companyLink {
+  color: inherit;
+  transition: color 0.2s;
+
+  &:hover {
+    color: $red;
+  }
+}
+
+// role / position — the secondary line
+.position {
   font-family: $font-mono;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: $blue;
-  margin: 6px 0 14px;
+  margin: 6px 0 8px;
   font-weight: 500;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.period {
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: $ink-soft;
+  font-weight: 600;
+}
+
+.tag {
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $ink;
+  background: $yellow;
+  border: 2px solid $ink;
+  border-radius: 99px;
+  padding: 3px 9px;
+  font-weight: 600;
 }
 
 .blurb {

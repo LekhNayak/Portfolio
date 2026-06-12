@@ -11,6 +11,18 @@
   background: rgba(251, 250, 245, 0.75);
   backdrop-filter: blur(10px);
   border-bottom: 3px solid $ink;
+
+  // hidden while the hero is on screen
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+
+.visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .logo {

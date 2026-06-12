@@ -1,48 +1,81 @@
 .hero {
+  position: relative;
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 130px;
-  perspective: 1100px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(30px, 5vw, 80px);
+  padding: 52px clamp(20px, 6vw, 96px) 72px;
+
+  @include mq($bp-900) {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    align-items: start;
+    padding-top: 56px;
+  }
 }
 
-.heroTag {
+// ---------- left column ----------
+.left {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  // keep the long rotating words from stretching the grid track (the word is
+  // allowed to overflow visually instead — it passes behind the avatar card)
+  min-width: 0;
+}
+
+.tag {
   font-family: $font-mono;
   font-size: clamp(11px, 1.3vw, 14px);
-  letter-spacing: 0.45em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
   color: $blue;
-  margin-bottom: 26px;
-  opacity: 0;
+  margin-bottom: 24px;
   font-weight: 500;
+  opacity: 0;
 }
 
-.h13d {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.h1 {
+.title {
   font-family: $font-display;
   font-weight: 400;
-  font-size: clamp(60px, 12vw, 180px);
-  line-height: 0.92;
-  letter-spacing: 0.015em;
+  line-height: 0.9;
   text-transform: uppercase;
-  transform-style: preserve-3d;
+  letter-spacing: 0.015em;
+  opacity: 0;
 }
 
-.row {
+.lead {
   display: block;
-  overflow: visible;
-  transform-style: preserve-3d;
+  font-size: clamp(34px, 5vw, 66px);
+  color: $ink;
+  -webkit-text-stroke: 1px $ink;
 }
 
-.rowInner {
+.rotor {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 6px;
+  // single line always — reserve the height so multi-word values like
+  // "confused soul" never wrap and shove the rest of the page around
+  height: clamp(70px, 11vw, 150px);
+  white-space: nowrap;
+}
+
+.word {
+  font-size: clamp(56px, 10vw, 150px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.caret {
   display: inline-block;
-  transform: translateY(120%) rotateX(-80deg);
-  transform-style: preserve-3d;
+  width: clamp(8px, 1.1vw, 16px);
+  height: clamp(50px, 9vw, 130px);
+  background: $ink;
+  margin-top: 4px;
+  animation: blink 1.05s steps(1) infinite;
 }
 
 .t3dRed {
@@ -51,25 +84,14 @@
     5px 5px 0 $red-deep, 6px 6px 0 $ink, 9px 9px 0 rgba(21, 21, 28, 0.18);
 }
 
-.t3dBlue {
-  color: $blue;
-  text-shadow: 1px 1px 0 $blue-deep, 2px 2px 0 $blue-deep, 3px 3px 0 $blue-deep, 4px 4px 0 $blue-deep,
-    5px 5px 0 $blue-deep, 6px 6px 0 $ink, 9px 9px 0 rgba(21, 21, 28, 0.18);
-}
-
-.t3dInk {
-  color: $paper;
-  -webkit-text-stroke: 3px $ink;
-  text-shadow: 5px 5px 0 $yellow, 8px 8px 0 $ink;
-}
-
-.heroSub {
-  margin-top: 36px;
+.intro {
+  margin-top: 34px;
   max-width: 560px;
   font-size: clamp(16px, 1.7vw, 20px);
   color: $ink-soft;
-  opacity: 0;
   font-weight: 500;
+  line-height: 1.55;
+  opacity: 0;
 
   b {
     color: $ink;
@@ -77,41 +99,128 @@
   }
 }
 
-.heroActions {
+.actions {
   display: flex;
-  gap: 18px;
-  margin-top: 44px;
+  gap: 10px;
+  margin-top: 38px;
   flex-wrap: wrap;
   opacity: 0;
+
+  // hero-specific: shrink the comic CTAs so all four fit on one row
+  // (still wraps on narrow / mobile widths)
+  a {
+    font-size: 15px;
+    padding: 10px 16px;
+    gap: 7px;
+  }
 }
 
-.heroMeta {
-  position: absolute;
-  bottom: 36px;
-  left: clamp(20px, 6vw, 96px);
-  right: clamp(20px, 6vw, 96px);
+// ---------- right column (avatar placeholder) ----------
+.right {
+  position: relative;
+  z-index: 3; // sit above the headline so an overflowing word passes behind it
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+
+  @include mq($bp-900) {
+    display: none; // hide the big placeholder on stacked/mobile layouts
+  }
+}
+
+// no frame box — the photo cards are the whole visual (nothing clips them)
+.avatar {
+  position: relative;
+  height: min(560px, 70vh);
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+// the photo card-deck — fills the whole frame
+.deck {
+  position: absolute;
+  inset: 0;
+  z-index: 1; // stays below the tag + note
+}
+
+.deckCard {
+  position: absolute;
+  inset: 0;
+  border: 3px solid $ink;
+  border-radius: 14px;
+  box-shadow: 8px 8px 0 $ink; // neobrutalist offset shadow
+  overflow: hidden;
+  background: $paper;
+  cursor: pointer;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-origin: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+.avatarTag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 5; // above the full-bleed photo deck
   font-family: $font-mono;
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: $ink-soft;
-  opacity: 0;
-  font-weight: 500;
+  color: #fff;
+  background: $ink;
+  padding: 5px 10px;
+  border-radius: 6px;
 }
 
+.avatarNote {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 5;
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $ink-soft;
+}
+
+// ---------- scroll hint ----------
 .scrollHint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: $ink-soft;
+  font-weight: 500;
+
+  @include mq($bp-900) {
+    display: none;
+  }
 }
 
 .wheel {
   width: 3px;
-  height: 46px;
+  height: 44px;
   background: linear-gradient(180deg, $red, transparent);
   animation: dropLine 1.8s ease-in-out infinite;
 }

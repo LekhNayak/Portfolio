@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { Loader } from '@/components/Loader/Loader';
 import { Cursor } from '@/components/Cursor/Cursor';
-import { Scene } from '@/components/Scene/Scene';
 import { WebTrail } from '@/components/WebTrail/WebTrail';
 import { Halftone } from '@/components/Halftone/Halftone';
 import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
@@ -11,7 +10,7 @@ import { Hero } from '@/components/Hero/Hero';
 import { Marquee } from '@/components/Marquee/Marquee';
 import { About } from '@/components/About/About';
 import { Projects } from '@/components/Projects/Projects';
-import { Research } from '@/components/Research/Research';
+// import { Research } from '@/components/Research/Research'; // hidden — kept in code
 import { Experience } from '@/components/Experience/Experience';
 import { Achievements } from '@/components/Achievements/Achievements';
 import { Leadership } from '@/components/Leadership/Leadership';
@@ -28,6 +27,7 @@ import { useVelocitySkew } from '@/hooks/useVelocitySkew';
 import { useMagnetic } from '@/hooks/useMagnetic';
 import { useCardTilt } from '@/hooks/useCardTilt';
 import { useShowcaseAnimations } from '@/hooks/useShowcaseAnimations';
+import { useClickFx } from '@/hooks/useClickFx';
 import { useSceneBindings } from '@/context/SceneBindingsContext';
 
 /**
@@ -55,13 +55,13 @@ export function Home() {
   useMagnetic(skewWrapRef);
   useCardTilt(skewWrapRef);
   useShowcaseAnimations(skewWrapRef, reduceMotion);
+  useClickFx(!reduceMotion);
 
   return (
     <>
       <Loader onComplete={() => setLoaded(true)} />
 
       {cursorEnabled && <Cursor enabled={cursorEnabled} />}
-      <Scene loaded={loaded} reduceMotion={reduceMotion} />
       {cursorEnabled && <WebTrail enabled={cursorEnabled} />}
 
       <Halftone />
@@ -76,7 +76,7 @@ export function Home() {
           <Marquee items={MARQUEE_REV} reverse variant2 />
           <About />
           <Projects />
-          <Research />
+          {/* <Research /> hidden — kept in code */}
           <Experience />
           <Achievements />
           <Leadership />

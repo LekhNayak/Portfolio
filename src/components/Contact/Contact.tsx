@@ -6,7 +6,7 @@ import styles from './Contact.module.scss';
 export function Contact() {
   return (
     <section id="contact" className={styles.contact}>
-      <div className={`${shared.eyebrow} ${styles.eyebrowCenter} reveal`}>07 — Let's Connect</div>
+      <div className={`${shared.eyebrow} ${styles.eyebrowCenter} reveal`}>06 — Let's Connect</div>
       <h2 className={`${shared.h2} ${styles.h2Center} flip3d`}>
         LET'S BUILD SOMETHING <span className={shared.accent}>AMAZING</span>
       </h2>

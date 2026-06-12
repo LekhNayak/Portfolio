@@ -16,25 +16,12 @@
     color: $ink-soft;
     margin-bottom: 24px;
     font-weight: 500;
+    line-height: 1.55;
 
     b {
       color: $ink;
       font-weight: 700;
     }
-  }
-
-  // nested for specificity so the rotate beats the global `.reveal` transform
-  .quote {
-    font-family: $font-display;
-    font-size: clamp(22px, 2.4vw, 30px);
-    color: $ink;
-    border: 3px solid $ink;
-    border-radius: 18px;
-    padding: 22px 26px;
-    background: $yellow;
-    box-shadow: 6px 6px 0 $ink;
-    transform: rotate(-1deg);
-    letter-spacing: 0.04em;
   }
 }
 
@@ -44,15 +31,17 @@
   gap: 14px;
 }
 
-.stat {
+// ---- flip card (button) ----
+.card {
   position: relative;
-  background: $paper;
-  border: 3px solid $ink;
-  border-radius: 16px;
-  padding: 26px 24px;
-  box-shadow: 5px 5px 0 $ink;
-  transition: 0.25s;
-  overflow: hidden;
+  height: clamp(150px, 18vw, 168px);
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1000px;
 
   &:nth-child(odd) {
     transform: rotate(-1deg);
@@ -62,9 +51,47 @@
   }
   &:hover {
     transform: translate(-3px, -3px) rotate(0);
-    box-shadow: 9px 9px 0 $ink;
-    background: #fff;
   }
+}
+
+.flipInner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.6, 0.02, 0.2, 1);
+}
+
+.card.flipped .flipInner {
+  transform: rotateY(180deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 26px 24px;
+  border: 3px solid $ink;
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 $ink;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.front {
+  background: $paper;
+}
+
+.back {
+  background: $yellow;
+  transform: rotateY(180deg);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
 }
 
 .num {
@@ -82,4 +109,32 @@
   color: $ink-soft;
   margin-top: 6px;
   font-weight: 500;
+}
+
+// ---- back face: placeholder for future asset ----
+.placeholder {
+  width: 52px;
+  height: 52px;
+  border: 3px dashed $ink;
+  border-radius: 10px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(21, 21, 28, 0.08) 6px, rgba(21, 21, 28, 0.08) 12px);
+}
+
+.backLbl {
+  font-family: $font-mono;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $ink;
+  font-weight: 500;
+  line-height: 1.4;
+  max-width: 90%;
+}
+
+.flipHint {
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $ink-soft;
 }

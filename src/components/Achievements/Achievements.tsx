@@ -9,7 +9,7 @@ import styles from './Achievements.module.scss';
 export function Achievements() {
   return (
     <section id="achievements">
-      <div className={`${shared.eyebrow} reveal`}>05 — Achievements</div>
+      <div className={`${shared.eyebrow} reveal`}>04 — Achievements</div>
       <h2 className={`${shared.h2} flip3d`}>
         HACKATHONS &amp; <span className={shared.accent}>AWARDS</span>
       </h2>

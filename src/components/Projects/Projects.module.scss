@@ -10,50 +10,13 @@
   }
 }
 
+// .card is now just the tilt + perspective wrapper (the visible panel lives on
+// the faces). No overflow/preserve-3d here, so the inner flip renders in true 3D.
 .card {
   position: relative;
-  border: 3px solid $ink;
-  border-radius: 20px;
-  padding: 36px 30px;
-  background: $paper;
-  box-shadow: 8px 8px 0 $ink;
-  transform-style: preserve-3d;
+  cursor: pointer;
+  perspective: 1400px;
   will-change: transform;
-  overflow: hidden;
-  transition: box-shadow 0.3s;
-
-  // radial cursor glow (driven by --mx/--my from useCardTilt)
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 196, 0, 0.35), transparent 45%);
-    opacity: 0;
-    transition: opacity 0.4s;
-    pointer-events: none;
-    z-index: 0;
-  }
-  // comic rays revealed on hover
-  &::after {
-    content: '';
-    position: absolute;
-    inset: -45%;
-    background: repeating-conic-gradient(from 0deg, rgba(35, 66, 214, 0.08) 0deg 7deg, transparent 7deg 16deg);
-    opacity: 0;
-    transition: opacity 0.45s;
-    pointer-events: none;
-    z-index: 0;
-  }
-  &:hover::before {
-    opacity: 1;
-  }
-  &:hover::after {
-    opacity: 1;
-    animation: rayspin 14s linear infinite;
-  }
-  &:hover {
-    box-shadow: 14px 14px 0 $ink;
-  }
 
   &:nth-child(2) .badge,
   &:nth-child(5) .badge {
@@ -84,11 +47,81 @@
   }
 }
 
+// ---- the flip ----
+.flipInner {
+  position: relative;
+  display: grid; // stack both faces in one cell → height = the taller face (no reflow on flip)
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.6, 0.02, 0.2, 1);
+  will-change: transform;
+}
+
+.card.flipped .flipInner {
+  transform: rotateY(180deg);
+}
+
+.face {
+  grid-area: 1 / 1;
+  position: relative;
+  border: 3px solid $ink;
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 $ink;
+  padding: 36px 30px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover .face {
+  box-shadow: 14px 14px 0 $ink;
+}
+
+.front {
+  background: $paper;
+
+  // radial cursor glow (driven by --mx/--my set on .card by useCardTilt)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 196, 0, 0.35), transparent 45%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: 0;
+  }
+  // comic rays revealed on hover
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -45%;
+    background: repeating-conic-gradient(from 0deg, rgba(35, 66, 214, 0.08) 0deg 7deg, transparent 7deg 16deg);
+    opacity: 0;
+    transition: opacity 0.45s;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.card:hover .front::before {
+  opacity: 1;
+}
+.card:hover .front::after {
+  opacity: 1;
+  animation: rayspin 14s linear infinite;
+}
+
+.back {
+  background: $yellow;
+  color: $ink;
+  transform: rotateY(180deg);
+}
+
 // idle float lives on an inner wrapper so it never fights the outer tilt
 .inner {
   position: relative;
   z-index: 1;
-  transform-style: preserve-3d;
   animation: floatPanel 6s ease-in-out infinite;
 }
 
@@ -96,6 +129,7 @@
   position: absolute;
   top: -3px;
   right: 24px;
+  z-index: 2;
   font-family: $font-display;
   font-size: 16px;
   letter-spacing: 0.08em;
@@ -105,15 +139,23 @@
   border-top: none;
   padding: 8px 14px;
   border-radius: 0 0 12px 12px;
-  transform: translateZ(40px);
+}
+
+.badgeBack {
+  background: $red;
+  color: #fff;
 }
 
 .glyph {
-  font-size: 38px;
   display: inline-block;
   animation: floatGlyph 4s ease-in-out infinite;
-  transform: translateZ(56px);
-  filter: drop-shadow(3px 3px 0 rgba(21, 21, 28, 0.35));
+  filter: drop-shadow(4px 4px 0 rgba(21, 21, 28, 0.3));
+}
+
+.icon {
+  display: block;
+  width: 58px;
+  height: 58px;
 }
 
 .title {
@@ -122,14 +164,12 @@
   margin: 16px 0 12px;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  transform: translateZ(46px);
 }
 
 .blurb {
   color: $ink-soft;
   font-size: 14.5px;
   line-height: 1.55;
-  transform: translateZ(28px);
   font-weight: 500;
 }
 
@@ -141,7 +181,6 @@
   font-size: 13px;
   font-weight: 600;
   color: $ink;
-  transform: translateZ(34px);
 
   span {
     color: $red;
@@ -154,7 +193,6 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 22px;
-  transform: translateZ(20px);
 }
 
 .chip {
@@ -175,7 +213,6 @@
   gap: 10px;
   margin-top: 24px;
   flex-wrap: wrap;
-  transform: translateZ(30px);
 }
 
 .projBtn {
@@ -206,4 +243,73 @@
   &:hover {
     background: $blue-deep;
   }
+}
+
+// the flip toggle (front: "The Story", back: "Back")
+.flipBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $font-display;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 2px solid $ink;
+  background: $yellow;
+  color: $ink;
+  box-shadow: 3px 3px 0 $ink;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 $ink;
+  }
+}
+
+// ---- back face content ----
+.backTitle {
+  font-family: $font-display;
+  font-size: clamp(22px, 2.1vw, 30px);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: $ink;
+  margin: 8px 0 16px;
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.storyRow {
+  dt {
+    font-family: $font-mono;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $red;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(21, 21, 28, 0.82);
+    font-weight: 500;
+  }
+}
+
+.back .actions,
+.back .flipBtn {
+  margin-top: 20px;
+}
+
+// contrast the back button against the yellow face
+.back .flipBtn {
+  background: $paper;
 }

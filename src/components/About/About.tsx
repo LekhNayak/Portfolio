@@ -1,52 +1,75 @@
+import { useState } from 'react';
 import shared from '@/styles/shared.module.scss';
 import styles from './About.module.scss';
 
 const STATS = [
-  { count: 8.05, decimals: 2, suffix: '', label: 'CGPA · B.Tech CS' },
-  { count: 8, decimals: 0, suffix: '+', label: 'Hackathon Wins' },
-  { count: 10, decimals: 0, suffix: '+', label: 'Major Projects' },
-  { count: 300, decimals: 0, suffix: '+', label: 'Users Served' },
+  { count: 8.05, decimals: 2, suffix: '', label: 'CGPA · B.Tech CS', back: 'Receipts for the all-nighters' },
+  { count: 8, decimals: 0, suffix: '+', label: 'Hackathon Wins', back: 'Trophies & certs — soon' },
+  { count: 10, decimals: 0, suffix: '+', label: 'Major Projects', back: 'Demos & screenshots — soon' },
+  { count: 300, decimals: 0, suffix: '+', label: 'Users Served', back: 'Case studies — soon' },
 ] as const;
 
-/** "Who is Lekh" — developer narrative, comic quote panel and stat counters. */
+/** "Who is Lekh" — casual intro + the four flip-to-reveal stat cards. */
 export function About() {
+  const [flipped, setFlipped] = useState<boolean[]>(() => STATS.map(() => false));
+
+  const toggle = (i: number) =>
+    setFlipped((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+
   return (
     <section id="about">
       <div className={`${shared.eyebrow} reveal`}>01 — Who is Lekh</div>
       <h2 className={`${shared.h2} flip3d`}>
-        ENGINEER, <span className={shared.accent}>BUILDER</span> &amp; <span className={shared.accentB}>RESEARCHER</span>
+        4TH-YEAR CS STUDENT, <span className={shared.accent}>PROFESSIONAL</span>{' '}
+        <span className={shared.accentB}>OVERTHINKER</span>
       </h2>
 
       <div className={styles.aboutGrid}>
         <div className={styles.aboutText}>
           <p className="reveal">
-            I'm a <b>Computer Science</b> undergrad at <b>SPIT, Mumbai</b>, with a Minor in <b>Business Analytics from
-            IIT Patna</b> (9.5 CGPA). I build full-stack products, distributed systems and AI/ML applications — end to
-            end.
+            Hi! I'm a <b>4th-year B.Tech CSE student</b> who stumbled into engineering and now does coding (kinda). On
+            paper it's a degree; in practice it's one very long debugging session.
           </p>
           <p className="reveal">
-            From <b>RAG platforms</b> and real-time collaborative editors to <b>HPC access portals</b> and{' '}
-            <b>quantum-optimized ML research</b>, I gravitate toward hard problems where systems, data and people meet —
-            and I ship them.
+            My PC and I have been through more together than most people go through in a relationship; late nights,
+            crashes, the occasional breakdown (mostly mine). Somehow we keep <b>running</b>.
           </p>
-          <p className={`${styles.quote} reveal`}>
-            "I don't just write code — I ship systems that hold up in production."
+          <p className="reveal">
+            When I'm not fighting my own code, I'm building <b>full-stack products</b>,  or jumping into a{' '}
+            <b>debate or case study</b> to feel smart again.
           </p>
         </div>
 
         <div className={`${styles.stats} reveal`}>
-          {STATS.map((s) => (
-            <div className={styles.stat} key={s.label}>
-              <div
-                className={`${styles.num} num`}
-                data-count={s.count}
-                data-decimals={s.decimals}
-                data-suffix={s.suffix}
-              >
-                0
-              </div>
-              <div className={styles.lbl}>{s.label}</div>
-            </div>
+          {STATS.map((s, i) => (
+            <button
+              type="button"
+              className={`${styles.card} hoverable ${flipped[i] ? styles.flipped : ''}`}
+              key={s.label}
+              onClick={() => toggle(i)}
+              aria-pressed={flipped[i]}
+              aria-label={`${s.label} — tap to flip`}
+              data-no-clickfx
+            >
+              <span className={styles.flipInner}>
+                <span className={`${styles.face} ${styles.front}`}>
+                  <span
+                    className={`${styles.num} num`}
+                    data-count={s.count}
+                    data-decimals={s.decimals}
+                    data-suffix={s.suffix}
+                  >
+                    0
+                  </span>
+                  <span className={styles.lbl}>{s.label}</span>
+                </span>
+                <span className={`${styles.face} ${styles.back}`}>
+                  <span className={styles.placeholder} aria-hidden="true" />
+                  <span className={styles.backLbl}>{s.back}</span>
+                  <span className={styles.flipHint}>↺ flip back</span>
+                </span>
+              </span>
+            </button>
           ))}
         </div>
       </div>

@@ -10,9 +10,9 @@ import styles from './Experience.module.scss';
 export function Experience() {
   return (
     <section id="experience">
-      <div className={`${shared.eyebrow} reveal`}>04 — Experience</div>
+      <div className={`${shared.eyebrow} reveal`}>03 — Experience</div>
       <h2 className={`${shared.h2} flip3d`}>
-        WHERE I'VE <span className={shared.accent}>SHIPPED</span>
+        WHERE I'VE <span className={shared.accent}>Worked</span>
       </h2>
 
       <div className={styles.timeline}>
@@ -22,8 +22,20 @@ export function Experience() {
             <span className={`${styles.node} tl-node`} aria-hidden="true" />
             <div className={`${styles.card} hoverable`}>
               <div className={styles.no}>{e.no}</div>
-              <h4 className={styles.role}>{e.role}</h4>
-              <div className={styles.org}>{e.org}</div>
+              <h4 className={styles.company}>
+                {e.url ? (
+                  <a className={`${styles.companyLink} hoverable`} href={e.url} target="_blank" rel="noopener">
+                    {e.org} ↗
+                  </a>
+                ) : (
+                  e.org
+                )}
+              </h4>
+              <div className={styles.position}>{e.role}</div>
+              <div className={styles.meta}>
+                <span className={styles.period}>{e.period}</span>
+                <span className={styles.tag}>{e.tag}</span>
+              </div>
               <p className={styles.blurb}>{e.blurb}</p>
               <div className={`${styles.chipRow} js-chips`}>
                 {e.tech.map((t) => (
