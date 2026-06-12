@@ -2,7 +2,7 @@
 
 A Spider-Verse / comic-book themed engineering portfolio built as a **React 19 + Vite + TypeScript** single-page application. Every animation, interaction, and the full WebGL scene are driven by GSAP and Three.js — no UI framework, no Tailwind.
 
-**Live:** [lekh.dev](https://lekh.dev) &nbsp;·&nbsp; **Contact:** lekh.nayak23@spit.ac.in
+**Live:** [lekh.dev](https://portfolio.lekh.online) &nbsp;·&nbsp; **Contact:** lekh.nayak23@spit.ac.in
 
 ---
 
