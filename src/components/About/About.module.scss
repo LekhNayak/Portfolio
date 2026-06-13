@@ -26,32 +26,126 @@
 }
 
 .stats {
+  position: relative; // anchor for the merged card + slot outlines
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 22px;
 }
 
-// ---- flip card (button) ----
+// ---- flip card (button, draggable) ----
 .card {
   position: relative;
+  z-index: 1;
   height: clamp(150px, 18vw, 168px);
   padding: 0;
   border: none;
   background: transparent;
   font: inherit;
   text-align: left;
-  cursor: pointer;
+  cursor: grab;
   perspective: 1000px;
+  touch-action: none; // we own the drag gesture
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
 
-  &:nth-child(odd) {
-    transform: rotate(-1deg);
+  &:active {
+    cursor: grabbing;
   }
-  &:nth-child(even) {
-    transform: rotate(1deg);
-  }
-  &:hover {
-    transform: translate(-3px, -3px) rotate(0);
-  }
+}
+
+// target outlines shown when all four are flipped to back — drop a card on its
+// box to dock it; dock all four to fuse the single card
+.slotLayer {
+  position: absolute;
+  inset: 11px; // ≈ half the grid gap → a centred, tight 2×2 footprint
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.slot {
+  margin: 2px;
+  border: 3px dashed $blue;
+  border-radius: 14px;
+  opacity: 0.5;
+  animation: aboutMagnet 1.8s ease-in-out infinite;
+  transition: opacity 0.2s, border-color 0.2s, background 0.2s;
+}
+
+// the card is mostly inside this slot — it will dock on release
+.slotActive {
+  opacity: 1;
+  border-style: solid;
+  border-color: $red;
+  background: rgba(224, 32, 47, 0.08);
+  animation: none;
+}
+
+// the fused single card filling the centre
+.mergedCard {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 4px solid $ink;
+  border-radius: 20px;
+  background: $yellow;
+  box-shadow: 10px 10px 0 $ink;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.mergedMono {
+  font-family: $font-display;
+  font-size: clamp(54px, 8vw, 104px);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: $red;
+  text-shadow: 4px 4px 0 $ink;
+}
+
+.mergedHint {
+  font-family: $font-mono;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $ink;
+  font-weight: 600;
+}
+
+// resting comic slant lives here (CSS only) so the GSAP drag transform on the
+// card never wipes it; `.docked` straightens it to 0°
+.tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.45s cubic-bezier(0.6, 0.02, 0.2, 1);
+}
+
+.card.docked .tilt {
+  transform: rotate(0deg);
+}
+
+// hover straightens + lifts the card, like the achievement badges
+.card:hover .tilt {
+  transform: rotate(0deg) translate(-3px, -4px);
+}
+
+.card:hover .face {
+  box-shadow: 9px 9px 0 $ink;
+}
+
+.card:hover .front {
+  background: #fff;
 }
 
 .flipInner {
@@ -79,6 +173,7 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   overflow: hidden;
+  transition: box-shadow 0.25s, background 0.25s;
 }
 
 .front {
