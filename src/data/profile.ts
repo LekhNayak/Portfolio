@@ -13,7 +13,7 @@ export const PROFILE = {
     github: 'https://github.com/LekhNayak',
     linkedin: 'https://www.linkedin.com/in/lekh-nayak-9428aa280/',
     email: 'mailto:lekh.nayak23@spit.ac.in',
-    resume: '/Lekh_Nayak_Resume.pdf',
+    resume: '/assets/Lekh_Nayak_Resume_2026.pdf',
   },
 
   hero: {
