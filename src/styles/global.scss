@@ -41,18 +41,21 @@
   // "click me" far better than a mask does). Match the token name, not the
   // filename, when adding rules.
   //
-  // The .cur is listed first: it packs 16/32/48/64/128 frames each with its own
-  // hotspot, so the browser picks the right frame for the display density and
-  // we never have to state a hotspot. Engines that can't read .cur (Safari,
-  // and .cur is a Windows format generally) skip to the 32px PNG — extracted
-  // losslessly from that same .cur — which DOES need its hotspot spelled out,
-  // and it is not (0,0): the mask's is 8 0, the hand's fingertip is 1 0.
-  // The shipped 128px PNGs are deliberately unused; 128 is Chrome's hard cap
-  // and would draw a comically oversized cursor.
-  // Each rule adds its own keyword last (auto / pointer / grab), so behaviour
-  // still degrades correctly where no image loads at all.
-  --cur-default: url('/assets/Spiderman%20Cursor/Marvel%20Spider-Man%20Hand%20%26%20Head%20Retro%20Cursor--pointer--SweezyCursors.cur'), url('/assets/Spiderman%20Cursor/spidey-pointer-32.png') 8 0;
-  --cur-pointer: url('/assets/Spiderman%20Cursor/Marvel%20Spider-Man%20Hand%20%26%20Head%20Retro%20Cursor--cursor--SweezyCursors.cur'), url('/assets/Spiderman%20Cursor/spidey-cursor-32.png') 1 0;
+  // SIZE IS PINNED ON PURPOSE — do not put the .cur files back in front.
+  // Each .cur packs five frames (16/32/48/64/128) and the browser, not us,
+  // decides which to draw: hosts that serve .cur with a usable content-type
+  // got the 128px frame (huge), while `vite preview` serves it as text/html so
+  // Chrome rejected it and fell through to the 32px PNG (small). Same CSS,
+  // wildly different cursor. A single fixed-size PNG renders identically
+  // everywhere — and it is the only format Safari accepts anyway.
+  //
+  // These are the 48px frames lifted losslessly out of those same .cur files,
+  // so the art is untouched. Their hotspots must be stated explicitly and are
+  // NOT (0,0): the mask's is 12 0, the hand's fingertip is 2 0. To resize, swap
+  // in the 32 or 64 frame and use that frame's hotspot — 32: mask 8 0 / hand
+  // 1 0; 64: mask 16 1 / hand 3 1. Nothing above 128 will draw at all.
+  --cur-default: url('/assets/Spiderman%20Cursor/spidey-pointer-48.png') 12 0;
+  --cur-pointer: url('/assets/Spiderman%20Cursor/spidey-cursor-48.png') 2 0;
 }
 
 * {
