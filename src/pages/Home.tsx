@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Loader } from '@/components/Loader/Loader';
 import { Cursor } from '@/components/Cursor/Cursor';
 import { WebTrail } from '@/components/WebTrail/WebTrail';
-import { Halftone } from '@/components/Halftone/Halftone';
+import { PaperTexture } from '@/components/PaperTexture/PaperTexture';
 import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
 import { HUD } from '@/components/HUD/HUD';
 import { Navbar } from '@/components/Navbar/Navbar';
@@ -66,7 +66,7 @@ export function Home() {
       {cursorEnabled && <Cursor enabled={cursorEnabled} />}
       {cursorEnabled && <WebTrail enabled={cursorEnabled} />}
 
-      <Halftone />
+      <PaperTexture />
       <ProgressBar />
       <HUD />
       <Navbar />

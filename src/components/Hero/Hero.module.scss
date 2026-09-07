@@ -135,7 +135,7 @@
   height: min(560px, 70vh);
   aspect-ratio: 4 / 5;
   max-width: 100%;
-  cursor: pointer;
+  cursor: var(--cur-pointer), pointer;
 }
 
 // the photo card-deck — fills the whole frame
@@ -153,7 +153,7 @@
   box-shadow: 8px 8px 0 $ink; // neobrutalist offset shadow
   overflow: hidden;
   background: $paper;
-  cursor: pointer;
+  cursor: var(--cur-pointer), pointer;
   will-change: transform;
   backface-visibility: hidden;
   transform-origin: center;
@@ -219,9 +219,25 @@
   }
 }
 
-.wheel {
-  width: 3px;
-  height: 44px;
-  background: linear-gradient(180deg, $red, transparent);
-  animation: dropLine 1.8s ease-in-out infinite;
+// Spidey hanging over the SCROLL cue, in place of the old red drop-line — the
+// web strand drawn at the top of the art carries the same downward line the
+// gradient rule used to. He bobs gently, as if the thread has a little give.
+.spidey {
+  width: auto;
+  height: 84px;
+  animation: spideyBob 2.8s ease-in-out infinite;
+}
+
+// Deliberately NOT in global.scss with the other keyframes: CSS-modules rewrites
+// the `animation` name it finds in this file to a hashed one, so a keyframe
+// declared globally is never matched (see the site-wide note in global.scss).
+// Declared here, definition and reference get hashed together and it runs.
+@keyframes spideyBob {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
 }

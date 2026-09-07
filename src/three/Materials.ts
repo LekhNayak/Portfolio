@@ -11,7 +11,7 @@ export const COLORS = {
   RED: 0xe0202f,
   BLUE: 0x2342d6,
   YELLOW: 0xe8a800,
-  PAPER: 0xf2efe6,
+  PAPER: 0xf1ead6,
 } as const;
 
 /** Flat ink material shared by every hero-silhouette primitive. */

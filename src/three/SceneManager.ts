@@ -53,7 +53,7 @@ export class SceneManager {
     this.renderer.setClearColor(0x000000, 0);
 
     this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.Fog(0xfbfaf5, 26, 60);
+    this.scene.fog = new THREE.Fog(0xf9f3e2, 26, 60);
 
     this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
     this.camera.position.set(-2, 3.5, 14);

@@ -19,7 +19,7 @@
   background: transparent;
   font: inherit;
   text-align: left;
-  cursor: pointer;
+  cursor: var(--cur-pointer), pointer;
   perspective: 1600px;
 }
 

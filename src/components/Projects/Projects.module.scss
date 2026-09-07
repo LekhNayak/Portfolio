@@ -1,12 +1,16 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  // Equalise every row, so a card matches its neighbours AND the other row
+  // rather than hugging however much copy that project happens to have.
+  grid-auto-rows: 1fr;
   gap: 28px;
   margin-top: 64px;
   perspective: 1400px;
 
   @include mq($bp-980) {
     grid-template-columns: 1fr;
+    grid-auto-rows: auto; // stacked, matching heights would just be dead space
   }
 }
 
@@ -14,7 +18,10 @@
 // the faces). No overflow/preserve-3d here, so the inner flip renders in true 3D.
 .card {
   position: relative;
-  cursor: pointer;
+  // A single-cell grid: .flipInner then stretches to the full row height it was
+  // given, instead of collapsing to content and leaving the panel short.
+  display: grid;
+  cursor: var(--cur-pointer), pointer;
   perspective: 1400px;
   will-change: transform;
 
@@ -259,7 +266,7 @@
   background: $yellow;
   color: $ink;
   box-shadow: 3px 3px 0 $ink;
-  cursor: pointer;
+  cursor: var(--cur-pointer), pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {

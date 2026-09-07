@@ -112,7 +112,7 @@ export function Hero({ active, reduceMotion }: HeroProps) {
       </div>
 
       <div className={styles.scrollHint} aria-hidden="true">
-        <span className={styles.wheel} />
+        <img className={styles.spidey} src="/assets/spiderman%20hanging-Photoroom.png" alt="" decoding="async" />
         SCROLL
       </div>
     </section>

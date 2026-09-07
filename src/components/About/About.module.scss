@@ -42,7 +42,8 @@
   background: transparent;
   font: inherit;
   text-align: left;
-  cursor: grab;
+  // mask + grab keyword: themed where images load, correct drag affordance where not
+  cursor: var(--cur-pointer), grab;
   perspective: 1000px;
   touch-action: none; // we own the drag gesture
   user-select: none;
@@ -50,7 +51,7 @@
   will-change: transform;
 
   &:active {
-    cursor: grabbing;
+    cursor: var(--cur-pointer), grabbing;
   }
 }
 
@@ -99,7 +100,7 @@
   border-radius: 20px;
   background: $yellow;
   box-shadow: 10px 10px 0 $ink;
-  cursor: pointer;
+  cursor: var(--cur-pointer), pointer;
   overflow: hidden;
 }
 

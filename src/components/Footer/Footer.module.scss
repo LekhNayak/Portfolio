@@ -12,6 +12,8 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: $ink-soft;
-  background: $paper-2;
+  // no fill of its own — the ivory sheet and its texture read straight
+  // through, so the ink rule is the only thing dividing footer from page.
+  background: transparent;
   font-weight: 500;
 }

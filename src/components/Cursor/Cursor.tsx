@@ -7,19 +7,15 @@ interface CursorProps {
   enabled: boolean;
 }
 
-/** The global comic cursor: instant dot, eased ring, hover label. */
+/**
+ * The comic hover label that trails the native Spider-Man image cursor. The
+ * pointer itself is a real CSS cursor (see global.scss) — the old red dot and
+ * eased ring are gone, so nothing is painted over the Spidey art.
+ */
 export function Cursor({ enabled }: CursorProps) {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
 
-  useCursor(dotRef, ringRef, labelRef, enabled);
+  useCursor(labelRef, enabled);
 
-  return (
-    <>
-      <div ref={dotRef} className={styles.dot} aria-hidden="true" />
-      <div ref={ringRef} className={styles.ring} aria-hidden="true" />
-      <div ref={labelRef} className={styles.label} aria-hidden="true" />
-    </>
-  );
+  return <div ref={labelRef} className={styles.label} aria-hidden="true" />;
 }
