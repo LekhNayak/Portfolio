@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Loader } from '@/components/Loader/Loader';
 import { Cursor } from '@/components/Cursor/Cursor';
-import { WebTrail } from '@/components/WebTrail/WebTrail';
+// import { WebTrail } from '@/components/WebTrail/WebTrail'; // hidden — kept in code
 import { PaperTexture } from '@/components/PaperTexture/PaperTexture';
 import { ProgressBar } from '@/components/ProgressBar/ProgressBar';
 import { HUD } from '@/components/HUD/HUD';
@@ -27,6 +27,7 @@ import { useVelocitySkew } from '@/hooks/useVelocitySkew';
 import { useMagnetic } from '@/hooks/useMagnetic';
 import { useCardTilt } from '@/hooks/useCardTilt';
 import { useShowcaseAnimations } from '@/hooks/useShowcaseAnimations';
+import { useAnimeEnhancements } from '@/hooks/useAnimeEnhancements';
 import { useClickFx } from '@/hooks/useClickFx';
 import { useScrollRefresh } from '@/hooks/useScrollRefresh';
 import { useSceneBindings } from '@/context/SceneBindingsContext';
@@ -34,7 +35,8 @@ import { useSceneBindings } from '@/context/SceneBindingsContext';
 /**
  * The whole single-page engineering portfolio. Owns the loader→loaded handoff,
  * the page skew-wrap scope for all GSAP scroll effects, and decides whether the
- * custom cursor / web-trail are active (pointer-capable + motion allowed).
+ * custom cursor is active (pointer-capable + motion allowed). The red web-trail
+ * that used to follow the cursor is switched off (too distracting).
  */
 export function Home() {
   const reduceMotion = useReducedMotion();
@@ -56,6 +58,7 @@ export function Home() {
   useMagnetic(skewWrapRef);
   useCardTilt(skewWrapRef);
   useShowcaseAnimations(skewWrapRef, reduceMotion);
+  useAnimeEnhancements(skewWrapRef, reduceMotion);
   useClickFx(!reduceMotion);
   useScrollRefresh(loaded);
 
@@ -64,7 +67,7 @@ export function Home() {
       <Loader onComplete={() => setLoaded(true)} />
 
       {cursorEnabled && <Cursor enabled={cursorEnabled} />}
-      {cursorEnabled && <WebTrail enabled={cursorEnabled} />}
+      {/* {cursorEnabled && <WebTrail enabled={cursorEnabled} />} hidden — kept in code */}
 
       <PaperTexture />
       <ProgressBar />

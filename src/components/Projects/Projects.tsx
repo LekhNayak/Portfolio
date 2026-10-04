@@ -1,5 +1,7 @@
-import { useState, type MouseEvent } from 'react';
+import { useRef, useState, type MouseEvent } from 'react';
 import { PROJECTS } from '@/data/projects';
+import { popChips, revealBackFace } from '@/animations/animeEffects';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { ProjectIcon } from './ProjectIcon';
 import shared from '@/styles/shared.module.scss';
 import styles from './Projects.module.scss';
@@ -9,12 +11,26 @@ import styles from './Projects.module.scss';
  * the existing tilt + radial-glow + scroll-scrub system (via the global `card`
  * markers). Cards flip on click to a back face with the in-depth story
  * (what / how / impact). The tilt stays on `.card`; the flip lives on an inner
- * wrapper so the two never fight.
+ * wrapper so the two never fight. On each flip anime.js staggers in the face
+ * that just turned toward you: the story rows, or the tech chips on return.
  */
 export function Projects() {
   const [flipped, setFlipped] = useState<boolean[]>(() => PROJECTS.map(() => false));
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const reduceMotion = useReducedMotion();
 
-  const toggle = (i: number) => setFlipped((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+  const toggle = (i: number) => {
+    const toBack = !flipped[i];
+    setFlipped((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+
+    const card = cardRefs.current[i];
+    if (!card || reduceMotion) return;
+    if (toBack) {
+      revealBackFace([...card.querySelectorAll(`.${styles.back} .${styles.backTitle}, .${styles.back} .${styles.storyRow}`)]);
+    } else {
+      popChips([...card.querySelectorAll(`.${styles.front} .${styles.chip}`)], 300);
+    }
+  };
 
   // flip on card click, but let the GitHub / Live Demo links work normally
   const onCardClick = (e: MouseEvent<HTMLElement>, i: number) => {
@@ -32,6 +48,9 @@ export function Projects() {
           <article
             className={`${styles.card} card hoverable reveal ${flipped[i] ? styles.flipped : ''}`}
             key={p.name}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
             onClick={(e) => onCardClick(e, i)}
             data-no-clickfx
           >

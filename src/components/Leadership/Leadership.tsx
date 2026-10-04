@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { LEADERSHIP } from '@/data/leadership';
+import { popChips, revealBackFace } from '@/animations/animeEffects';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import shared from '@/styles/shared.module.scss';
 import styles from './Leadership.module.scss';
 
 /**
  * Positions of responsibility. Each card flips vertically on click to reveal
  * the detail. Front: role / org / committee size. Back: what I actually did.
+ * As the back turns up, its copy rises in and the highlight chips pop (anime.js).
  */
 export function Leadership() {
   const [flipped, setFlipped] = useState<boolean[]>(() => LEADERSHIP.map(() => false));
-  const toggle = (i: number) => setFlipped((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const reduceMotion = useReducedMotion();
+
+  const toggle = (i: number) => {
+    const toBack = !flipped[i];
+    setFlipped((prev) => prev.map((v, idx) => (idx === i ? !v : v)));
+
+    const back = cardRefs.current[i]?.querySelector(`.${styles.back}`);
+    if (!back || !toBack || reduceMotion) return;
+    revealBackFace([...back.querySelectorAll(`.${styles.backLabel}, .${styles.backTitle}, .${styles.backLead}`)]);
+    popChips([...back.querySelectorAll(`.${styles.backChip}`)], 480);
+  };
 
   return (
     <section id="leadership">
@@ -24,6 +38,9 @@ export function Leadership() {
             type="button"
             className={`${styles.card} reveal hoverable ${flipped[i] ? styles.flipped : ''}`}
             key={l.role}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
             onClick={() => toggle(i)}
             aria-pressed={flipped[i]}
             aria-label={`${l.role}, ${l.org} — tap to flip`}

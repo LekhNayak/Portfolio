@@ -72,6 +72,15 @@
     &:hover::after {
       width: 100%;
     }
+
+    // section currently in view keeps the hover state
+    &.active {
+      color: $ink;
+    }
+
+    &.active::after {
+      width: 100%;
+    }
   }
 }
 

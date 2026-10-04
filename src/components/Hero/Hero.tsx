@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import gsap from 'gsap';
 import { useTypewriter } from '@/hooks/useTypewriter';
+import { useHeroParallax } from '@/hooks/useHeroParallax';
 import { HeroAvatar } from './HeroAvatar';
 import { PROFILE } from '@/data/profile';
 import shared from '@/styles/shared.module.scss';
@@ -24,8 +25,12 @@ export function Hero({ active, reduceMotion }: HeroProps) {
   const wordRef = useRef<HTMLSpanElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const hintRef = useRef<HTMLDivElement>(null);
+  const parallaxRefs = useMemo(() => ({ hero: heroRef, left: leftRef, right: rightRef, hint: hintRef }), []);
 
   useTypewriter(wordRef, ROLES, reduceMotion);
+  useHeroParallax(parallaxRefs, reduceMotion);
 
   useEffect(() => {
     if (!active) return;
@@ -50,7 +55,7 @@ export function Hero({ active, reduceMotion }: HeroProps) {
   }, [active, reduceMotion]);
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} ref={heroRef}>
       <div className={styles.left} ref={leftRef}>
         <div className={styles.tag} data-stagger>
           {PROFILE.hero.tag}
@@ -111,7 +116,7 @@ export function Hero({ active, reduceMotion }: HeroProps) {
         <HeroAvatar />
       </div>
 
-      <div className={styles.scrollHint} aria-hidden="true">
+      <div className={styles.scrollHint} ref={hintRef} aria-hidden="true">
         <img className={styles.spidey} src="/assets/spiderman%20hanging-Photoroom.png" alt="" decoding="async" />
         SCROLL
       </div>

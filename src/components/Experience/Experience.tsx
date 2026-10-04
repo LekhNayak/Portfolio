@@ -5,7 +5,8 @@ import styles from './Experience.module.scss';
 /**
  * Experience timeline. The spine draws itself on scroll (`tl-line`), nodes
  * pulse, and each card slides in from an alternating side (`tl-item` +
- * `data-side`) — all handled by `useShowcaseAnimations`.
+ * `data-side`) — all handled by `useShowcaseAnimations`. Each node also sends
+ * out radar rings (`tl-ring`) as its card arrives — `useAnimeEnhancements`.
  */
 export function Experience() {
   return (
@@ -19,7 +20,9 @@ export function Experience() {
         <div className={`${styles.line} tl-line`} aria-hidden="true" />
         {EXPERIENCE.map((e, i) => (
           <div className={`${styles.item} tl-item`} data-side={i % 2 ? 'r' : 'l'} key={e.no}>
-            <span className={`${styles.node} tl-node`} aria-hidden="true" />
+            <span className={`${styles.node} tl-node`} aria-hidden="true">
+              <span className={`${styles.ring} tl-ring`} />
+            </span>
             <div className={`${styles.card} hoverable`}>
               <div className={styles.no}>{e.no}</div>
               <h4 className={styles.company}>

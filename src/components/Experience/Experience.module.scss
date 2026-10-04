@@ -42,6 +42,16 @@
   }
 }
 
+// radar ring — invisible until anime.js pings it outward
+.ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 3px solid $red;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .card {
   position: relative;
   border: 3px solid $ink;

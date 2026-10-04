@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PROFILE } from '@/data/profile';
+import { dropIn } from '@/animations/animeEffects';
+import { useActiveSection } from '@/hooks/useActiveSection';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import styles from './Navbar.module.scss';
 
 const LINKS = [
@@ -12,12 +15,27 @@ const LINKS = [
   { href: '#contact', label: 'Contact' },
 ] as const;
 
+const SECTION_IDS = LINKS.map((l) => l.href.slice(1));
+
 /**
  * Fixed comic navbar. Hidden over the full-screen hero; slides in once the
  * hero is scrolled past. `hoverable` markers wire each link into the cursor.
+ * The link for the section in view keeps its red underline, and the links
+ * drop in one by one each time the bar slides back in.
  */
 export function Navbar() {
   const [visible, setVisible] = useState(false);
+  const active = useActiveSection(SECTION_IDS);
+  const reduceMotion = useReducedMotion();
+  const linksRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!visible || reduceMotion || !linksRef.current) return;
+    const anim = dropIn([...linksRef.current.children]);
+    return () => {
+      anim?.revert();
+    };
+  }, [visible, reduceMotion]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -34,9 +52,14 @@ export function Navbar() {
         {PROFILE.brand}
         <span>{PROFILE.brandSuffix}</span>
       </a>
-      <div className={styles.links}>
+      <div className={styles.links} ref={linksRef}>
         {LINKS.map((l) => (
-          <a key={l.href} className="hoverable" href={l.href}>
+          <a
+            key={l.href}
+            className={`hoverable ${active === l.href.slice(1) ? styles.active : ''}`}
+            href={l.href}
+            aria-current={active === l.href.slice(1) ? 'true' : undefined}
+          >
             {l.label}
           </a>
         ))}
