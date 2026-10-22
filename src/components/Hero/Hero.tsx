@@ -81,6 +81,9 @@ export function Hero({ active, reduceMotion }: HeroProps) {
           <a className={`${shared.btn} ${shared.btnPrimary} hoverable magnetic`} data-label="LET'S GO!" href="#projects">
             <span className={shared.dot} /> View Projects
           </a>
+          <a className={`${shared.btn} ${shared.btnPrimary} hoverable magnetic`} data-label="WORK!" href="#experience">
+            <span className={shared.dot} /> View Experience
+          </a>
           <a
             className={`${shared.btn} ${shared.btnGhost} hoverable magnetic`}
             data-label="GRAB IT!"
@@ -88,7 +91,7 @@ export function Hero({ active, reduceMotion }: HeroProps) {
             target="_blank"
             rel="noopener"
           >
-            Download Resume ↓
+            View Resume ↗
           </a>
           <a
             className={`${shared.btn} ${shared.btnGhost} hoverable magnetic`}

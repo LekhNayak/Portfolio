@@ -26,7 +26,7 @@ export function Contact() {
           target="_blank"
           rel="noopener"
         >
-          Download Resume ↓
+          View Resume ↗
         </a>
       </div>
 
