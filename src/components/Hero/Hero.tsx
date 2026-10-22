@@ -85,7 +85,6 @@ export function Hero({ active, reduceMotion }: HeroProps) {
             className={`${shared.btn} ${shared.btnGhost} hoverable magnetic`}
             data-label="GRAB IT!"
             href={PROFILE.links.resume}
-            download
             target="_blank"
             rel="noopener"
           >
