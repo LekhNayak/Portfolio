@@ -15,6 +15,17 @@ export interface ExperienceEntry {
 export const EXPERIENCE: ExperienceEntry[] = [
   {
     no: '01',
+    role: 'Technology Graduate Engineer',
+    org: 'Barclays',
+    url: 'https://www.barclays.com/',
+    period: 'Jul 2027 — Onwards',
+    tag: 'Upcoming',
+    blurb:
+      'Joining Barclays as a Technology Graduate Engineer, working on engineering and technology for a global financial services firm.',
+    tech: ['Software Engineering', 'Banking Technology', 'Graduate Program'],
+  },
+  {
+    no: '02',
     role: 'SDE Intern',
     org: 'Cactus Life Sciences',
     url: 'https://cactuslifesciences.com/',
@@ -25,7 +36,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
     tech: ['Python', 'NLP', 'Machine Learning', 'Azure AI Foundry', 'AWS Bedrock', 'GCP'],
   },
   {
-    no: '02',
+    no: '03',
     role: 'System Engineering Intern',
     org: 'Sardar Patel Institute of Technology',
     url: 'https://gpu.spit.ac.in',
