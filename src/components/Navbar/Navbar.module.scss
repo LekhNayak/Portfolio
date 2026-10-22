@@ -26,13 +26,15 @@
 }
 
 .logo {
-  font-family: $font-display;
-  font-size: 24px;
-  letter-spacing: 0.06em;
-  color: $ink;
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
 
-  span {
-    color: $red;
+  img {
+    display: block;
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
   }
 }
 

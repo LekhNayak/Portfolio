@@ -48,9 +48,8 @@ export function Navbar() {
 
   return (
     <nav className={`${styles.nav} ${visible ? styles.visible : ''}`}>
-      <a className={`${styles.logo} hoverable`} href="#top">
-        {PROFILE.brand}
-        <span>{PROFILE.brandSuffix}</span>
+      <a className={`${styles.logo} hoverable`} href="#top" aria-label={`${PROFILE.brand}${PROFILE.brandSuffix} — back to top`}>
+        <img src="/assets/lekh-icon-180.png" alt="" width={44} height={44} decoding="async" />
       </a>
       <div className={styles.links} ref={linksRef}>
         {LINKS.map((l) => (
